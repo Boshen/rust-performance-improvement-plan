@@ -1,0 +1,1 @@
+- Use short, concise language. Avoid AI-sounding phrasing.
