@@ -132,11 +132,15 @@ disallowed-types = [
 
 **Find**:
 
-- [`cargo-bloat`](https://docs.rs/cargo-bloat)
+- [`cargo-bloat`](https://docs.rs/cargo-bloat) — `--crates` attributes `.text`; an example binary's std panic/backtrace machinery overstates a library's footprint.
+- `bloaty` — section/symbol size breakdown with % (file vs VM); diffs two binaries; per-crate (`-d compileunits`) needs debug info.
+- [`cargo-binutils`](https://docs.rs/cargo-binutils) — `cargo size`/`nm`/`objdump`: section/symbol sizes + disassembly.
+- Measure `musl` (macOS is 16 KB page-quantized); watch `.rodata`, not just `.text`.
 
 **Fix**:
 
 - Drop unused or heavy deps; reduce monomorphization (fewer generic instantiations).
+- `str::to_lowercase`/`to_uppercase` on ASCII data pulls `core::unicode` tables (KBs) — use `to_ascii_*`.
 
 ## Reduce memory usage
 
@@ -145,6 +149,7 @@ disallowed-types = [
 - DHAT — allocation rate, sites, peak
 - heaptrack
 - `xcrun xctrace record --template 'Allocations' --output . --launch -- <binary>`
+- [`dhat-rs`](https://docs.rs/dhat) — in-process allocation profiling (no valgrind)
 
 ### Total heap allocation
 
