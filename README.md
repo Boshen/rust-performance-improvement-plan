@@ -25,6 +25,7 @@ Benchmark (prefer cycle/instruction counts over wall-time):
 
 - [Criterion](https://crates.io/crates/criterion2)
 - [Hyperfine](https://docs.rs/hyperfine)
+- `std::hint::black_box` — wrap inputs/outputs so the optimizer can't elide benchmarked work.
 
 ## Linting
 
@@ -75,11 +76,11 @@ disallowed-types = [
   - [`fnv`](https://docs.rs/fnv)
   - [`ahash`](https://docs.rs/ahash)
 - [`memchr`](https://docs.rs/memchr)/`memmem` — byte search over per-`char` iteration.
-- Lazy [`Regex`](https://docs.rs/regex): compile once in `LazyLock`/[`lazy_static`](https://docs.rs/lazy_static); never `Regex::new` in a hot path.
+- Lazy [`Regex`](https://docs.rs/regex): compile once in `LazyLock` (std); never `Regex::new` in a hot path.
 - Iterators: return `impl Iterator`; `extend` over `collect`; `filter_map`; `chunks_exact`; `iter().copied()`.
 - `sort_unstable`/`sort_unstable_by_key` over `sort` — no temp alloc, when stability isn't needed.
 - Bounds checks: iterate, slice before the loop, or assert ranges; `get_unchecked` last.
-- `assert_unchecked!` a proven invariant so the compiler drops bounds/overflow checks in safe code.
+- `core::hint::assert_unchecked` a proven invariant so the compiler drops bounds/overflow checks in safe code.
 - Early-return the no-work case (`is_empty`, `len < 2`) before any alloc/loop.
 - Std methods: `swap_remove`, `retain`, lazy `*_or_else`, `vec![0; n]`.
 - Group co-accessed values under one `Mutex`/`RefCell`.
