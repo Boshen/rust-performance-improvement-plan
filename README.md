@@ -76,6 +76,8 @@ disallowed-types = [
   - [`fnv`](https://docs.rs/fnv)
   - [`ahash`](https://docs.rs/ahash)
 - [`memchr`](https://docs.rs/memchr)/`memmem` — byte search over per-`char` iteration.
+- `str::chars()` decodes UTF-8 per char; iterate `as_bytes()` when codepoints aren't needed.
+- `chars().nth(i)` is O(n) per call (O(n²) in a loop) and miscounts multibyte — index `as_bytes()`.
 - Lazy [`Regex`](https://docs.rs/regex): compile once in `LazyLock` (std); never `Regex::new` in a hot path.
 - Iterators: return `impl Iterator`; `extend` over `collect`; `filter_map`; `chunks_exact`; `iter().copied()`.
 - `sort_unstable`/`sort_unstable_by_key` over `sort` — no temp alloc, when stability isn't needed.
@@ -140,6 +142,7 @@ disallowed-types = [
 **Fix**:
 
 - Drop unused or heavy deps; reduce monomorphization (fewer generic instantiations).
+- De-monomorphize: thin generic shim, body in a non-generic `fn` (compiles once, not per instantiation).
 - `str::to_lowercase`/`to_uppercase` on ASCII data pulls `core::unicode` tables (KBs) — use `to_ascii_*`.
 
 ## Reduce memory usage
