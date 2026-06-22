@@ -158,6 +158,7 @@ disallowed-types = [
 - Reserve with `Vec::with_capacity`/`reserve`.
 - Reuse collections: `clear()` a workhorse buffer; fill `&mut Vec`.
 - Avoid `clone`/`to_owned`/`format!`; use `clone_from`; borrow.
+- `Path::to_string_lossy` validates UTF-8 every call; allocates on invalid bytes.
 - `Cow` for mixed borrowed/owned.
 - `Box` only when needed; `Rc`/`Arc::clone` is free.
 - [`SmallVec`](https://docs.rs/smallvec) / [`ArrayVec`](https://docs.rs/arrayvec) — short vecs.
