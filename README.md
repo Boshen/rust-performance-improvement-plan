@@ -84,7 +84,9 @@ disallowed-types = [
 - Bounds checks: iterate, slice before the loop, or assert ranges; `get_unchecked` last.
 - `core::hint::assert_unchecked` a proven invariant so the compiler drops bounds/overflow checks in safe code.
 - Early-return the no-work case (`is_empty`, `len < 2`) before any alloc/loop.
+- Hoist loop-invariant work out of the loop; pull `&mut self`/`.len()` reads into locals, flush after.
 - Std methods: `swap_remove`, `retain`, lazy `*_or_else`, `vec![0; n]`.
+- One map probe: `entry()` over `contains_key` then `insert`.
 - Group co-accessed values under one `Mutex`/`RefCell`.
 - [`parking_lot`](https://docs.rs/parking_lot) — alternative locks.
 
