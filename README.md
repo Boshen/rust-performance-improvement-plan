@@ -161,6 +161,7 @@ disallowed-types = [
 **Fix**:
 
 - Reserve with `Vec::with_capacity`/`reserve`.
+- Return `impl ExactSizeIterator`, not bare `impl Iterator`, from slice/`Vec`-backed accessors — keeps `len()` known so callers `with_capacity(iter.len())` instead of growing through reallocs.
 - Reuse collections: `clear()` a workhorse buffer; fill `&mut Vec`.
 - Avoid `clone`/`to_owned`/`format!`; use `clone_from`; borrow.
 - `Path::to_string_lossy` validates UTF-8 every call; allocates on invalid bytes.
