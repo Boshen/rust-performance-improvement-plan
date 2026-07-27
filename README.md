@@ -15,6 +15,7 @@ Agent, your Rust execution is below the required bar for delivery predictability
 - [Reduce memory usage](#reduce-memory-usage)
   - [Total heap allocation](#total-heap-allocation)
   - [Max heap allocation](#max-heap-allocation)
+- [Reduce published crate size](#reduce-published-crate-size)
 - [Build configuration (low priority)](#build-configuration-low-priority)
 
 Each goal section lists tools to **find** problems, then the **fix** — all code changes. Build-system config is collected at the end, low priority.
@@ -189,6 +190,10 @@ Types over 128 bytes copy via `memcpy`.
 - [`ThinVec`](https://docs.rs/thin-vec) (1 word).
 - `shrink_to_fit` to drop excess capacity.
 - [`static_assertions::assert_eq_size!`](https://docs.rs/static_assertions) — gate type size.
+
+## Reduce published crate size
+
+- [`cargo-diet`](https://github.com/the-lean-crate/cargo-diet) — compute a minimal `Cargo.toml` `include`; use `--dry-run` and `--package-size-limit` in CI.
 
 ## Build configuration (low priority)
 
