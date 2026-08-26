@@ -147,6 +147,7 @@ disallowed-types = [
 - Drop unused or heavy deps; reduce monomorphization (fewer generic instantiations).
 - De-monomorphize: thin generic shim, body in a non-generic `fn` (compiles once, not per instantiation).
 - `str::to_lowercase`/`to_uppercase` on ASCII data pulls `core::unicode` tables (KBs) — use `to_ascii_*`.
+- Repeated static string lookup tables: intern each unique string into a compact ID; store strings once and key per-table membership or values by ID.
 
 ## Reduce memory usage
 
